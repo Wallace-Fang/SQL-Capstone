@@ -37,7 +37,7 @@ Write a SQL query to produce a list of the names of the facilities that do. */
 
 SELECT * 
 FROM `Facilities` 
-WHERE membercost > 1
+WHERE membercost > 0
 
 /* Q2: How many facilities do not charge a fee to members? */
 
@@ -52,7 +52,7 @@ facilities in question. */
 
 SELECT facid, name, membercost, monthlymaintenance
 FROM `Facilities` 
-WHERE membercost > 0 AND (membercost/monthlymaintenance) < 20
+WHERE membercost > 0 AND (membercost < monthlymaintenance/5.0) 
 
 /* Q4: Write an SQL query to retrieve the details of facilities with ID 1 and 5.
 Try writing the query without using the OR operator. */
@@ -66,8 +66,9 @@ WHERE facid IN(1, 5)
 more than $100. Return the name and monthly maintenance of the facilities
 in question. */
 
-SELECT expense_label, name, monthlymaintenance
-FROM `Facilities` 
+SELECT name, monthlymaintenance,
+CASE WHEN monthlymaintenance < 100 THEN 'cheap' ELSE 'expensive' END AS label
+FROM Facilities
 
 
 /* Q6: You'd like to get the first and last name of the last member(s)
